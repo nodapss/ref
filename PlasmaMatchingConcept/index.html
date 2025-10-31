@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RC?뭃L 蹂묐젹 怨듭쭊 ?뚮줈 二쇳뙆???묐떟</title>
+    <title>플라즈마 매칭 콘셉트</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
     <style>
@@ -40,8 +40,8 @@
 </head>
 <body>
     <header>
-        <h1>?뚮씪利덈쭏 留ㅼ묶 肄섏뀎??/h1>
-        <p class="sub">RC?뭃L 蹂묐젹 怨듭쭊 ?뚮줈 二쇳뙆???묐떟 (|Z|)<br>x異? 二쇳뙆??5??0 MHz, y異? ?꾪뵾?섏뒪 ?덈?媛?(廓). 13.56 MHz?먯꽌 50 廓, Im(Z)=0濡?湲곕낯 ?ㅼ젙. ???? Rc=Rl(?숈씪)濡?怨좎젙, 議곗젙? C留?</p>
+        <h1>플라즈마 매칭 콘셉트</h1>
+        <p class="sub">RC‒RL 병렬 공진 회로 주파수 응답 (|Z|)<br>x축: 주파수 5–20 MHz, y축: 임피던스 절대값 (Ω). 13.56 MHz에서 50 Ω, Im(Z)=0로 기본 설정. 저항은 Rc=Rl(동일)로 고정, 조정은 C만.</p>
     </header>
 
     <section id="chart-wrap">
@@ -66,8 +66,8 @@
     </section>
 
     <section id="controls">
-        <div class="badge">議곗젙</div>
-        <button id="resetBtn" class="btn">珥덇린??/button>
+        <div class="badge">조정</div>
+        <button id="resetBtn" class="btn">초기화</button>
         <div class="row hidden">
             <label for="freq">Frequency Change (MHz):</label>
             <input id="freq" type="range" min="12.00" max="15.00" step="0.01" value="13.56" />
@@ -84,12 +84,12 @@
             <div><b><span id="matcherVal">100.0</span>%</b></div>
         </div>
         <div class="kv">
-            <div>?숈씪 ???Rc=Rl: <b><span id="Rval">0.5</span> 廓</b></div>
-            <div>?닿껐??L: <b><span id="Lval">0.000</span> 쨉H</b></div>
-            <div>湲곗? C: <b><span id="C0val">0.00</span> pF</b> @ 13.56 MHz</div>
-            <div>?곸슜 C: <b><span id="Cval">0.00</span> pF</b></div>
+            <div>동일 저항 Rc=Rl: <b><span id="Rval">0.5</span> Ω</b></div>
+            <div>해결된 L: <b><span id="Lval">0.000</span> µH</b></div>
+            <div>기준 C: <b><span id="C0val">0.00</span> pF</b> @ 13.56 MHz</div>
+            <div>적용 C: <b><span id="Cval">0.00</span> pF</b></div>
         </div>
-        <p class="note" style="margin-top:8px">???щ씪?대뜑 紐⑤몢 ?ㅻⅨ履쎌쑝濡?媛덉닔濡?C媛 利앷?. 珥앺빀 ?ㅼ??쇱? 짹20%濡??대옩?꾨맗?덈떎.</p>
+        <p class="note" style="margin-top:8px">두 슬라이더 모두 오른쪽으로 갈수록 C가 증가. 총합 스케일은 ±20%로 클램프됩니다.</p>
     </section>
 
     <script>
@@ -123,7 +123,7 @@
 
         const ctx=document.getElementById('freqChart');
         const capTableImg=document.getElementById('capTable');
-        const chart=new Chart(ctx,{ type:'line', data:{ labels:[], datasets:[{ label:'?꾪뵾?섏뒪 |Z| (廓)', data:[], parsing:false, pointRadius:0, borderWidth:2, borderColor:'#1e88e5', fill:false, tension:0.1 }] }, options:{ responsive:true, maintainAspectRatio:true, aspectRatio:2.2, scales:{ x:{ type:'linear', title:{display:true,text:'二쇳뙆??(MHz)'}, min:fMinMHz, max:fMaxMHz, ticks:{ callback:(v)=>v.toFixed?v.toFixed(0):v } }, y:{ type:'linear', title:{display:true,text:'?꾪뵾?섏뒪 |Z| (廓)'}, min:0, max:65 } }, plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false}, annotation:{ annotations:{ vLine:{ type:'line', xMin:fSelMHz, xMax:fSelMHz, borderColor:'red', borderWidth:2, borderDash:[6,6] }, hLine:{ type:'line', yMin:50, yMax:50, borderColor:'red', borderWidth:2, borderDash:[6,6] }, crossLabelTarget:{ type:'label', xValue:fSelMHz, yValue:50, content:[`Target: 50 + j0 @ ${fSelMHz.toFixed(2)}MHz`], backgroundColor:'rgba(255,255,255,0.9)', borderColor:'red', borderWidth:1, color:'red', xAdjust:-100, yAdjust:-70 }, crossLabelNow:{ type:'label', xValue:fSelMHz, yValue:50, content:['Now: 0 + j0'], backgroundColor:'rgba(255,255,255,0.9)', borderColor:'#111', borderWidth:1, color:'#111', xAdjust:-100, yAdjust:-50 }, targetPoint:{ type:'point', xValue:fSelMHz, yValue:50, backgroundColor:'red', radius:5, borderWidth:0 } } } }, interaction:{ mode:'nearest', intersect:false } }});
+        const chart=new Chart(ctx,{ type:'line', data:{ labels:[], datasets:[{ label:'임피던스 |Z| (Ω)', data:[], parsing:false, pointRadius:0, borderWidth:2, borderColor:'#1e88e5', fill:false, tension:0.1 }] }, options:{ responsive:true, maintainAspectRatio:true, aspectRatio:2.2, scales:{ x:{ type:'linear', title:{display:true,text:'주파수 (MHz)'}, min:fMinMHz, max:fMaxMHz, ticks:{ callback:(v)=>v.toFixed?v.toFixed(0):v } }, y:{ type:'linear', title:{display:true,text:'임피던스 |Z| (Ω)'}, min:0, max:65 } }, plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false}, annotation:{ annotations:{ vLine:{ type:'line', xMin:fSelMHz, xMax:fSelMHz, borderColor:'red', borderWidth:2, borderDash:[6,6] }, hLine:{ type:'line', yMin:50, yMax:50, borderColor:'red', borderWidth:2, borderDash:[6,6] }, crossLabelTarget:{ type:'label', xValue:fSelMHz, yValue:50, content:[`Target: 50 + j0 @ ${fSelMHz.toFixed(2)}MHz`], backgroundColor:'rgba(255,255,255,0.9)', borderColor:'red', borderWidth:1, color:'red', xAdjust:-100, yAdjust:-70 }, crossLabelNow:{ type:'label', xValue:fSelMHz, yValue:50, content:['Now: 0 + j0'], backgroundColor:'rgba(255,255,255,0.9)', borderColor:'#111', borderWidth:1, color:'#111', xAdjust:-100, yAdjust:-50 }, targetPoint:{ type:'point', xValue:fSelMHz, yValue:50, backgroundColor:'red', radius:5, borderWidth:0 } } } }, interaction:{ mode:'nearest', intersect:false } }});
 
         function setCapTableVisible(show){
             const canvasEl = document.getElementById('freqChart');
